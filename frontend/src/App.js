@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Header, Sidebar } from "./pages";
+import { Header, Sidebar,SignIn ,SignUp,Withdraw,Deposit} from "./pages";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -10,7 +10,10 @@ function App() {
       <Sidebar/>
 
       <Routes>
-        {/* <Route path="/withdraw" element={<SignIn />}></Route> */}
+        <Route path="/signIn" element={<SignIn />}></Route>
+        <Route path="/signUp" element={<SignUp />}></Route>
+        <Route path="/withdraw" element={<Withdraw />}></Route>
+        <Route path="/deposit" element={<Deposit />}></Route>
       </Routes>
     </div>
   );

@@ -24,12 +24,12 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        display: `inline-flex`,
+        display: `flex`,
         flexDirection: `column`,
         position: `fixed`,
         width: `290px`,
         bgcolor: `lightblue`,
-        height: `calc(100vh - 60px)`,
+        height: "100vh",
         justifyContent: `space-between`,
         mt: 10,
       }}
