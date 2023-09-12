@@ -6,12 +6,19 @@ import {
   ListItemButton,
 } from "@mui/material";
 import React from "react";
-
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import { useNavigate } from "react-router-dom";
 
-const Tabs = ({ name }) => {
+const Tabs = ({ name, path }) => {
+  const navigate = useNavigate();
+
   return (
-    <ListItemButton sx={{ mb: 2, borderRadius: 3 }}>
+    <ListItemButton
+      sx={{ mb: 2, borderRadius: 3 }}
+      onClick={() => {
+        navigate(path);
+      }}
+    >
       <ListItemIcon>
         <DashboardIcon sx={{ fontSize: 30 }} />
       </ListItemIcon>
@@ -35,12 +42,12 @@ const Sidebar = () => {
       }}
     >
       <Box sx={{ width: `100%` }}>
-        {" "}
         <List sx={{ width: "270px", mt: 4, pl: 1, pr: 1 }}>
-          <Tabs name={"Users"} />
-          <Tabs name={"Withdraw"} />
-          <Tabs name={"Deposit"} />
-          <Tabs name={"Transfer"} />
+          <Tabs name={"Users"} path={"user"} />
+          <Tabs name={"Withdraw"} path={"withdraw"} />
+          <Tabs name={"Deposit"} path={"deposit"} />
+          <Tabs name={"Transfer"} path={"transfer"} />
+          <Tabs name={"Transaction"} path={"transaction"} />
         </List>
       </Box>
     </Box>

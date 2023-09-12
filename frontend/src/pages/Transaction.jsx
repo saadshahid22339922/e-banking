@@ -26,6 +26,7 @@ const Transaction = () => {
         width: `calc(100%-300px)`,
         ml: `290px`,
         pt: 10,
+        padding: 10,
       }}
     >
       <Typography

@@ -8,22 +8,22 @@ const Header = () => {
         sx={{
           justifyContent: `space-between`,
 
-          bgcolor: `lightblue`,
+          bgcolor: `white`,
         }}
       >
         <Box sx={{ display: `flex`, alignItems: `center` }}>
-          <Avatar
+          {/* <Avatar
             sx={{
               height: `40px`,
               width: `40px`,
               mr: 2,
             }}
-          ></Avatar>
+          ></Avatar> */}
 
           <Typography
             sx={{ mr: 10, fontWeight: `bold`, color: `black`, fontSize: 27 }}
           >
-            FlowBite
+            E-Banking
           </Typography>
         </Box>
 
@@ -36,9 +36,9 @@ const Header = () => {
           }}
         >
           <Typography
-            sx={{ fontWeight: `bold`, color: `black`, fontSize: 20, mr: 4 }}
+            sx={{ fontWeight: `bold`, color: `black`, fontSize: 17, mr: 4 }}
           >
-            Email@gmail.com
+            email@gmail.com
           </Typography>
           <Box
             sx={{
@@ -49,9 +49,12 @@ const Header = () => {
             }}
           >
             <Avatar
+              style={{
+                marginTop: 13,
+              }}
               sx={{
-                height: `50px`,
-                width: `50px`,
+                height: `40px`,
+                width: `40px`,
               }}
               // src={}
             ></Avatar>
