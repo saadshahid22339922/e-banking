@@ -20,73 +20,93 @@ const Deposit = () => {
 
   // Function to handle file selection
   const handleFileSelect = (e) => {
-    console.log(e)
+    console.log(e);
     const fileName = e.target.files[0]?.name || ""; // Get the selected file's name
- 
+
     setSelectedFileName(fileName); // Update the state with the selected file name
   };
 
+  const handleSubmit = (e) => {
+    try {
+      e.preventDefault();
+
+      const { amount } = e.target;
+
+      const FormData = {
+        amount: amount.value,
+      };
+
+      console.log(FormData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Box
-      sx={{
-        width: `calc(100%-290px)`,
-        ml: `290px`,
-        pt: 10,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <Box
         sx={{
-          mt: 30,
-          width: "700px",
+          width: `calc(100%-290px)`,
+          ml: `290px`,
+          pt: 10,
           display: "flex",
           alignItems: "center",
-          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
-        <Typography sx={{ fontWeight: "bold", fontSize: "40px" }}>
-          Deposit
-        </Typography>
-        <TextField
+        <Box
           sx={{
-            width: "100%",
-            mt: 4,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderRadius: `10px`,
-              },
-            },
+            mt: 30,
+            width: "700px",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
           }}
-          label="Amount"
-          type="number"
-          name="Amount"
-          size="medium"
-        />
-        <Button sx={{mt:2}}
-          component="label"
-          variant="contained"
-          startIcon={<CloudUploadIcon />}
         >
-          Upload a Image
-          <VisuallyHiddenInput type="file" onChange={handleFileSelect} />
-        </Button>
-        {/* Display the selected file name */}
-        {selectedFileName && (
-          <Typography sx={{ mt: 2 }}>
-            Selected File: {selectedFileName}
+          <Typography sx={{ fontWeight: "bold", fontSize: "40px" }}>
+            Deposit
           </Typography>
-        )}
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{width:"150px", mt: 10, height: `50px` ,alignSelf:"end"}}
-        >
-          Submit
-        </Button>
+          <TextField
+            sx={{
+              width: "100%",
+              mt: 4,
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderRadius: `10px`,
+                },
+              },
+            }}
+            label="Amount"
+            type="number"
+            name="Amount"
+            size="medium"
+            id="amount"
+          />
+          <Button
+            sx={{ mt: 2 }}
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload a Image
+            <VisuallyHiddenInput type="file" onChange={handleFileSelect} />
+          </Button>
+          {/* Display the selected file name */}
+          {selectedFileName && (
+            <Typography sx={{ mt: 2 }}>
+              Selected File: {selectedFileName}
+            </Typography>
+          )}
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ width: "150px", mt: 10, height: `50px`, alignSelf: "end" }}
+          >
+            Submit
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </form>
   );
 };
 

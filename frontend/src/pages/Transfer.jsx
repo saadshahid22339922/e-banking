@@ -1,14 +1,15 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 const handleSubmit = (e) => {
   try {
     e.preventDefault();
 
-    const { amount } = e.target;
+    const { amount, name } = e.target;
 
     const FormData = {
       amount: amount.value,
+      name: name.value,
     };
 
     console.log(FormData);
@@ -17,7 +18,7 @@ const handleSubmit = (e) => {
   }
 };
 
-const Withdraw = () => {
+const Transfer = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -40,7 +41,7 @@ const Withdraw = () => {
           }}
         >
           <Typography sx={{ fontWeight: "bold", fontSize: "40px" }}>
-            Withdraw
+            Transfer
           </Typography>
           <TextField
             sx={{
@@ -58,6 +59,22 @@ const Withdraw = () => {
             size="medium"
             id="amount"
           />
+          <TextField
+            sx={{
+              width: "100%",
+              mt: 4,
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderRadius: `10px`,
+                },
+              },
+            }}
+            label="Transfer to"
+            type="text"
+            name="name"
+            size="medium"
+            id="name"
+          />
           <Button
             type="submit"
             variant="contained"
@@ -71,4 +88,4 @@ const Withdraw = () => {
   );
 };
 
-export default Withdraw;
+export default Transfer;

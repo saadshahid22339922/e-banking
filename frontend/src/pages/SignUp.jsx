@@ -1,9 +1,26 @@
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import React from "react";
 
+const handleSubmit = (e) => {
+  try {
+    e.preventDefault();
+
+    const { email, password } = e.target;
+
+    const FormData = {
+      email: email.value,
+      password: password.value,
+    };
+
+    console.log(FormData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const SignIn = () => {
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Box
         sx={{
           display: `flex`,
@@ -29,8 +46,7 @@ const SignIn = () => {
             sx={{
               paddingTop: `100px`,
               paddingBottom: `100px`,
-            
-          
+
               display: `flex`,
               flexDirection: `column`,
               alignItems: "center",
@@ -59,6 +75,7 @@ const SignIn = () => {
               label="Email"
               name="email"
               size="medium"
+              id="email"
             />
 
             <TextField
@@ -75,6 +92,7 @@ const SignIn = () => {
               type="password"
               name="password"
               size="medium"
+              id="password"
             />
 
             <TextField
