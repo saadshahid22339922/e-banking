@@ -1,24 +1,64 @@
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
-import React from "react";
-
-const handleSubmit = (e) => {
-  try {
-    e.preventDefault();
-
-    const { email, password } = e.target;
-
-    const FormData = {
-      email: email.value,
-      password: password.value,
-    };
-
-    console.log(FormData);
-  } catch (error) {
-    console.log(error);
-  }
-};
+import {
+  Box,
+  Button,
+  Link,
+  TextField,
+  Typography,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import AUTH_API from "../apis/auth";
+import ROLE_API from "../apis/role";
+import ACCOUNT_TYPE_API from "../apis/account.type";
+import React, { useEffect, useState } from "react";
 
 const SignIn = () => {
+  const [roles, setRoles] = useState([]);
+  const [accountTypes, setAccountTypes] = useState([]);
+
+  const [selectedRole, setselectedRole] = useState(null);
+  const [selectedAccountType, setselectedAccountType] = useState(null);
+
+  const getData = async () => {
+    try {
+      let res1 = await ROLE_API.getAll();
+      let res2 = await ACCOUNT_TYPE_API.getAll();
+      setRoles(res1.data);
+      setAccountTypes(res2.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const { name, email, password } = e.target;
+
+      const body = {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        role: selectedRole,
+        account_type: selectedAccountType,
+      };
+
+      let res = await AUTH_API.signUp(body);
+      if (res) navigate("/");
+
+      console.log(body);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -34,7 +74,6 @@ const SignIn = () => {
           sx={{
             display: "flex",
             width: `1000px`,
-            height: `600px`,
             border: `solid`,
             borderRadius: 5,
             border: `none`,
@@ -72,6 +111,22 @@ const SignIn = () => {
                   },
                 },
               }}
+              label="Name"
+              name="name"
+              size="medium"
+              id="name"
+            />
+
+            <TextField
+              sx={{
+                width: "50%",
+                mt: 4,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderRadius: `10px`,
+                  },
+                },
+              }}
               label="Email"
               name="email"
               size="medium"
@@ -95,20 +150,59 @@ const SignIn = () => {
               id="password"
             />
 
-            <TextField
+            <InputLabel
+              sx={{ width: "50%", mt: 3 }}
+              id="demo-simple-select-label"
+            >
+              Select Role
+            </InputLabel>
+            <Select
               sx={{
                 width: "50%",
-                mt: 3,
+                // mt: 3,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
                     borderRadius: `10px`,
                   },
                 },
               }}
-              label="Confirm Password"
-              type="password"
-              size="medium"
-            />
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={(e) => {
+                setselectedRole(e.target.value);
+              }}
+            >
+              {roles.map((el) => {
+                return <MenuItem value={el._id}>{el.role}</MenuItem>;
+              })}
+            </Select>
+
+            <InputLabel
+              sx={{ width: "50%", mt: 3 }}
+              id="demo-simple-select-label"
+            >
+              Select Account Type
+            </InputLabel>
+            <Select
+              sx={{
+                width: "50%",
+                // mt: 3,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderRadius: `10px`,
+                  },
+                },
+              }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={(e) => {
+                setselectedAccountType(e.target.value);
+              }}
+            >
+              {accountTypes.map((el) => {
+                return <MenuItem value={el._id}>{el.account_type}</MenuItem>;
+              })}
+            </Select>
 
             <Box>
               {" "}
@@ -124,7 +218,7 @@ const SignIn = () => {
             <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
               {" "}
               <Typography mr={2}>Already Have Account?</Typography>
-              <Link href="#">Login here </Link>
+              <Link onClick={() => navigate("/signin")}>Login here </Link>
             </Box>
           </Box>
         </Box>

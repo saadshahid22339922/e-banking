@@ -1,23 +1,24 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import AUTH_API from "../apis/auth";
 import React from "react";
 
-const handleSubmit = (e) => {
-  try {
-    e.preventDefault();
-
-    const { amount } = e.target;
-
-    const FormData = {
-      amount: amount.value,
-    };
-
-    console.log(FormData);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const Withdraw = () => {
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const { amount } = e.target;
+      const body = {
+        amount: amount.value,
+      };
+      console.log(body);
+
+      let res = await AUTH_API.withdraw(body);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box

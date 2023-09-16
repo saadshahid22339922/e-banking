@@ -1,24 +1,27 @@
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import AUTH_API from "../apis/auth";
 import React from "react";
 
-const handleSubmit = (e) => {
-  try {
-    e.preventDefault();
-
-    const { email, password } = e.target;
-
-    const FormData = {
-      email: email.value,
-      password: password.value,
-    };
-
-    console.log(FormData);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const SignIn = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const { email, password } = e.target;
+      const body = {
+        email: email.value,
+        password: password.value,
+      };
+
+      await AUTH_API.login(body, navigate);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -111,7 +114,9 @@ const SignIn = () => {
             <Box sx={{ display: "flex", alignItems: "center", mt: 5 }}>
               {" "}
               <Typography mr={2}>Not Registered?</Typography>
-              <Link href="#">Create New Account </Link>
+              <Link onClick={() => navigate("/signup")}>
+                Create New Account
+              </Link>
             </Box>
           </Box>
         </Box>

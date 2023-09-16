@@ -1,7 +1,11 @@
 import React from "react";
 import { AppBar, Avatar, Box, Toolbar, Typography } from "@mui/material";
+import AUTH_API from "../apis/auth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <AppBar>
       <Toolbar
@@ -49,6 +53,7 @@ const Header = () => {
             }}
           >
             <Avatar
+              onClick={() => AUTH_API.logout(navigate)}
               style={{
                 marginTop: 13,
               }}
@@ -56,9 +61,29 @@ const Header = () => {
                 height: `40px`,
                 width: `40px`,
               }}
-              // src={}
             ></Avatar>
-            <Typography>Name</Typography>
+            <Typography style={{ color: "black" }}>name</Typography>
+          </Box>
+
+          <Box
+            sx={{
+              mt: 1,
+              ml: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar
+              style={{
+                marginTop: 13,
+              }}
+              sx={{
+                height: `40px`,
+                width: `40px`,
+              }}
+            ></Avatar>
+            <Typography style={{ color: "white" }}>name</Typography>
           </Box>
         </Box>
       </Toolbar>

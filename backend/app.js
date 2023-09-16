@@ -2,11 +2,16 @@ import express from "express";
 import logger from "morgan";
 import cors from "cors";
 import RouteSetup from "./routes";
+const path = require("path");
+const folderName = "uploads";
+const folderPath = path.join(__dirname, folderName);
 require("dotenv").config();
 require("./config/db");
 
 // Set up the express app
 const app = express();
+
+app.use(express.static(folderPath));
 
 // Log requests to the console.
 app.use(logger("dev"));

@@ -1,24 +1,25 @@
 import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
-
-const handleSubmit = (e) => {
-  try {
-    e.preventDefault();
-
-    const { amount, name } = e.target;
-
-    const FormData = {
-      amount: amount.value,
-      name: name.value,
-    };
-
-    console.log(FormData);
-  } catch (error) {
-    console.log(error);
-  }
-};
+import AUTH_API from "../apis/auth";
 
 const Transfer = () => {
+  const handleSubmit = (e) => {
+    try {
+      e.preventDefault();
+
+      const { amount, name } = e.target;
+
+      const FormData = {
+        amount: amount.value,
+        name: name.value,
+      };
+
+      console.log(FormData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box

@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TRANSACTION_API from "../apis/transaction";
 import { Box, Typography } from "@mui/material";
 
 function createData(type, amount, date) {
@@ -20,6 +21,21 @@ const rows = [
 ];
 
 const Transaction = () => {
+  const [transactions, setTransactions] = React.useState([]);
+
+  const getData = async () => {
+    try {
+      let res = await TRANSACTION_API.getAll();
+      if (res) {
+        setTransactions(res.data);
+      }
+    } catch (error) {}
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -39,27 +55,31 @@ const Transaction = () => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
-                Transaction Type{" "}
+                Sender
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", width: "30%" }}>
+                Reciever
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
                 Amount
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
-                Date&nbsp;(g)
+                Transaction Type
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {transactions.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.type}
+                  {`${row.send_acc.name} (${row.send_acc.acc_no})`}
                 </TableCell>
+                <TableCell align="left">{`${row.reciever_acc.name} (${row.reciever_acc.acc_no})`}</TableCell>
                 <TableCell align="left">{row.amount}</TableCell>
-                <TableCell align="left">{row.date}</TableCell>
+                <TableCell align="left">{row.transaction_type}</TableCell>
               </TableRow>
             ))}
           </TableBody>

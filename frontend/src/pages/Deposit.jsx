@@ -2,6 +2,7 @@ import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import React, { useState } from "react";
+import AUTH_API from "../apis/auth";
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
@@ -16,27 +17,33 @@ const VisuallyHiddenInput = styled("input")`
 `;
 
 const Deposit = () => {
-  const [selectedFileName, setSelectedFileName] = useState(""); // State to store selected file name
+  const [selectedFileName, setSelectedFileName] = useState(null); // State to store selected file name
 
   // Function to handle file selection
   const handleFileSelect = (e) => {
-    console.log(e);
-    const fileName = e.target.files[0]?.name || ""; // Get the selected file's name
+    try {
+      const fileName = e.target.files[0]; // Get the selected file's name
 
-    setSelectedFileName(fileName); // Update the state with the selected file name
+      setSelectedFileName(fileName); // Update the state with the selected file name
+      console.log("FILENAME ", fileName);
+    } catch (error) {
+      console.log("FILE UPLOAD ERROR ", error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
 
       const { amount } = e.target;
 
-      const FormData = {
-        amount: amount.value,
-      };
+      let formData = new FormData();
+      formData.append("amount", amount.value);
+      formData.append("file", selectedFileName);
 
-      console.log(FormData);
+      let res = await AUTH_API.deposit(formData);
+
+      console.log("FORM DATA ", formData);
     } catch (error) {
       console.log(error);
     }
@@ -94,7 +101,7 @@ const Deposit = () => {
           {/* Display the selected file name */}
           {selectedFileName && (
             <Typography sx={{ mt: 2 }}>
-              Selected File: {selectedFileName}
+              Selected File: {selectedFileName.name}
             </Typography>
           )}
           <Button
