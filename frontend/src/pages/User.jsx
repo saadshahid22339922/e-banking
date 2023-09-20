@@ -80,7 +80,7 @@ export default function BasicTable() {
                 </TableCell>
                 <TableCell align="left">{row.email}</TableCell>
                 <TableCell align="left">
-                  {row.account_type.account_type}
+                  {row.account_type?.account_type}
                 </TableCell>
                 <TableCell align="left">{row.role.role}</TableCell>
                 <TableCell align="left">{row.balance}</TableCell>

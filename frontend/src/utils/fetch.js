@@ -57,7 +57,6 @@ const post = async ({ url, body, isFormData = false, auth = true }) => {
 
 const put = async ({ url, id = null, body = {}, auth = true }) => {
   try {
-    console.log("BODY ", body);
     let headers = {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",

@@ -8,6 +8,8 @@ import Transfer from "./Transfer";
 import Profile from "./Profile";
 import User from "./User";
 import Transaction from "./Transaction";
+import Dashboard from "./Dashboard";
+
 export {
   Header,
   Sidebar,
@@ -18,5 +20,6 @@ export {
   Transfer,
   Profile,
   User,
-  Transaction
+  Transaction,
+  Dashboard,
 };

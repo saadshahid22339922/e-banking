@@ -1,39 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import LocalStorage from "../utils/local.storage";
 
 const handleSubmit = (e) => {
   try {
     e.preventDefault();
 
-    const {
-      name,
-      email,
-      password,
-      address,
-      phone,
-      bankName,
-      amount,
-      accountNumber,
-    } = e.target;
+    const { name, password } = e.target;
 
-    const FormData = {
+    const data = {
       name: name.value,
-      email: email.value,
       password: password.value,
-      address: address.value,
-      phone: phone.value,
-      bankName: bankName.value,
-      amount: amount.value,
-      accountNumber: accountNumber.value,
     };
 
-    console.log(FormData);
+    console.log(data);
   } catch (error) {
     console.log(error);
   }
 };
 
-const Field = ({ name, label, id }) => {
+const Field = ({ name, label, id, disabled = true }) => {
   return (
     <Box>
       <Typography sx={{ ml: 1, mt: 1 }} variant="h6">
@@ -50,6 +36,7 @@ const Field = ({ name, label, id }) => {
             },
           },
         }}
+        disabled={disabled}
         label={label}
         type="text"
         size="small"
@@ -59,6 +46,13 @@ const Field = ({ name, label, id }) => {
   );
 };
 const Profile = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const el = LocalStorage.getStorage();
+    setUser(el);
+  }, []);
+
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -87,11 +81,16 @@ const Profile = () => {
                 flexDirection: "column",
               }}
             >
-              <Field name={"Name"} label={"Ali"} id={"name"} />
-              <Field name={"Email"} label={"Email@gmail.com"} id={"email"} />
-              <Field name={"Password"} label={"1234"} id={"password"} />
-              <Field name={"Address"} label={"Tulip ext"} id={"address"} />
-              <Field name={"Phone"} label={"03004312331"} id={"phone"} />
+              <Field name={"Name"} label={user?.name} id={"name"} />
+              <Field
+                disabled={true}
+                name={"Email"}
+                label={user?.email}
+                id={"email"}
+              />
+              <Field name={"Password"} label={user?.password} id={"password"} />
+              {/* <Field name={"Address"} label={"Tulip ext"} id={"address"} />
+              <Field name={"Phone"} label={"03004312331"} id={"phone"} /> */}
             </Box>
           </Grid>
           <Grid
@@ -109,11 +108,16 @@ const Profile = () => {
                 flexDirection: "column",
               }}
             >
-              <Field name={"Bank Name"} label={"Bank"} id={"bankName"} />
-              <Field name={"Amount"} label={"300000"} id={"amount"} />
               <Field
+                disabled={true}
+                name={"Amount"}
+                label={user?.balance}
+                id={"amount"}
+              />
+              <Field
+                disabled={true}
                 name={"Account Number"}
-                label={"1234"}
+                label={user?.acc_no}
                 id={"accountNumber"}
               />
             </Box>
@@ -121,13 +125,13 @@ const Profile = () => {
 
           <Box sx={{ width: "100%", textAlign: "end", mt: 2 }}>
             {" "}
-            <Button
+            {/* <Button
               variant="contained"
               style={{ width: "200px", height: "50px", alignSelf: "end" }}
               type="submit"
             >
               Submit
-            </Button>
+            </Button> */}
           </Box>
         </Grid>
       </Box>

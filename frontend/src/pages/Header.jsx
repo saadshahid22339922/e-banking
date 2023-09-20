@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AppBar, Avatar, Box, Toolbar, Typography } from "@mui/material";
 import AUTH_API from "../apis/auth";
 import { useNavigate } from "react-router-dom";
+import LocalStorage from "../utils/local.storage";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const el = LocalStorage.getStorage();
+    setUser(el);
+  }, []);
 
   return (
     <AppBar>
@@ -16,14 +23,6 @@ const Header = () => {
         }}
       >
         <Box sx={{ display: `flex`, alignItems: `center` }}>
-          {/* <Avatar
-            sx={{
-              height: `40px`,
-              width: `40px`,
-              mr: 2,
-            }}
-          ></Avatar> */}
-
           <Typography
             sx={{ mr: 10, fontWeight: `bold`, color: `black`, fontSize: 27 }}
           >
@@ -42,7 +41,7 @@ const Header = () => {
           <Typography
             sx={{ fontWeight: `bold`, color: `black`, fontSize: 17, mr: 4 }}
           >
-            email@gmail.com
+            {user?.email}
           </Typography>
           <Box
             sx={{
@@ -60,30 +59,9 @@ const Header = () => {
               sx={{
                 height: `40px`,
                 width: `40px`,
+                mb: "25%",
               }}
             ></Avatar>
-            <Typography style={{ color: "black" }}>name</Typography>
-          </Box>
-
-          <Box
-            sx={{
-              mt: 1,
-              ml: 3,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar
-              style={{
-                marginTop: 13,
-              }}
-              sx={{
-                height: `40px`,
-                width: `40px`,
-              }}
-            ></Avatar>
-            <Typography style={{ color: "white" }}>name</Typography>
           </Box>
         </Box>
       </Toolbar>

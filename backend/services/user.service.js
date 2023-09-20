@@ -42,7 +42,8 @@ const login = async ({ email, password }) => {
     let res = await User.findOne({
       email,
       password,
-    });
+    }).populate("role");
+    
     if (!res)
       return successResponse({
         status: 400,

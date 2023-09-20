@@ -36,6 +36,11 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const getRoleName = () => {
+    let res = roles.filter((el) => el._id === selectedRole);
+    return res[0]?.role_enum;
+  };
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -173,36 +178,46 @@ const SignIn = () => {
               }}
             >
               {roles.map((el) => {
-                return <MenuItem value={el._id}>{el.role}</MenuItem>;
+                return (
+                  <MenuItem key={el.role} value={el._id}>
+                    {el.role}
+                  </MenuItem>
+                );
               })}
             </Select>
 
-            <InputLabel
-              sx={{ width: "50%", mt: 3 }}
-              id="demo-simple-select-label"
-            >
-              Select Account Type
-            </InputLabel>
-            <Select
-              sx={{
-                width: "50%",
-                // mt: 3,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderRadius: `10px`,
-                  },
-                },
-              }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              onChange={(e) => {
-                setselectedAccountType(e.target.value);
-              }}
-            >
-              {accountTypes.map((el) => {
-                return <MenuItem value={el._id}>{el.account_type}</MenuItem>;
-              })}
-            </Select>
+            {getRoleName() === "CUSTOMER" ? (
+              <React.Fragment>
+                <InputLabel
+                  sx={{ width: "50%", mt: 3 }}
+                  id="demo-simple-select-label"
+                >
+                  Select Account Type
+                </InputLabel>
+                <Select
+                  sx={{
+                    width: "50%",
+                    // mt: 3,
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderRadius: `10px`,
+                      },
+                    },
+                  }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  onChange={(e) => {
+                    setselectedAccountType(e.target.value);
+                  }}
+                >
+                  {accountTypes.map((el) => {
+                    return (
+                      <MenuItem value={el._id}>{el.account_type}</MenuItem>
+                    );
+                  })}
+                </Select>
+              </React.Fragment>
+            ) : null}
 
             <Box>
               {" "}

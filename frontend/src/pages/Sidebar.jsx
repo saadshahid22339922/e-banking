@@ -5,9 +5,10 @@ import {
   Typography,
   ListItemButton,
 } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useNavigate } from "react-router-dom";
+import LocalStorage from "../utils/local.storage";
 
 const Tabs = ({ name, path }) => {
   const navigate = useNavigate();
@@ -28,6 +29,13 @@ const Tabs = ({ name, path }) => {
 };
 
 const Sidebar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const el = LocalStorage.getStorage();
+    setUser(el);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -43,11 +51,22 @@ const Sidebar = () => {
     >
       <Box sx={{ width: `100%` }}>
         <List sx={{ width: "270px", mt: 4, pl: 1, pr: 1 }}>
-          <Tabs name={"Users"} path={"user"} />
-          <Tabs name={"Withdraw"} path={"withdraw"} />
-          <Tabs name={"Deposit"} path={"deposit"} />
-          <Tabs name={"Transfer"} path={"transfer"} />
-          <Tabs name={"Transaction"} path={"transaction"} />
+          {user?.role?.role_enum === "CUSTOMER" ? (
+            <React.Fragment>
+              <Tabs name={"Dashboard"} path={"dashboard"} />
+              <Tabs name={"Withdraw"} path={"withdraw"} />
+              <Tabs name={"Deposit"} path={"deposit"} />
+              <Tabs name={"Transfer"} path={"transfer"} />
+              <Tabs name={"Profile"} path={"profile"} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Tabs name={"Dashboard"} path={"dashboard"} />
+              <Tabs name={"Users"} path={"user"} />
+              <Tabs name={"Transaction"} path={"transaction"} />
+              <Tabs name={"Profile"} path={"profile"} />
+            </React.Fragment>
+          )}
         </List>
       </Box>
     </Box>
