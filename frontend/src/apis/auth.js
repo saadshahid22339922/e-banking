@@ -22,6 +22,11 @@ const getUsers = async () => {
   return res;
 };
 
+const getDetailUser = async (id) => {
+  let res = await FETCH.get({ url: `${ROUTES.USER}/${id}`, auth: false });
+  return res;
+};
+
 const logout = async (cb) => {
   STORAGE.logout(cb);
 };
@@ -47,7 +52,7 @@ const withdraw = async (body, cb) => {
 
 const transfer = async (body, cb) => {
   let res = await FETCH.post({
-    url: `${ROUTES.USER}/transfer/6504354946404677a77586aa`,
+    url: `${ROUTES.USER}/transfer`,
     body,
     auth: false,
   });
@@ -62,5 +67,6 @@ const AUTH_API = {
   deposit,
   withdraw,
   transfer,
+  getDetailUser,
 };
 export default AUTH_API;

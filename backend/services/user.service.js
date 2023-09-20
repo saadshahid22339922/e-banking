@@ -11,6 +11,24 @@ const getAll = async () => {
   }
 };
 
+const getUserById = async ({ id }) => {
+  try {
+    let res = await User.findOne({
+      _id: id,
+    }).populate("role");
+
+    if (!res)
+      return successResponse({
+        status: 400,
+        message: "no.users.found",
+        data: null,
+      });
+    return successResponse({ message: "users.found", data: res });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 const create = async ({ name, email, password, account_type, role }) => {
   try {
     let isExist = await User.findOne({
@@ -43,7 +61,7 @@ const login = async ({ email, password }) => {
       email,
       password,
     }).populate("role");
-    
+
     if (!res)
       return successResponse({
         status: 400,
@@ -116,8 +134,12 @@ const withDrawAmount = async ({ amount }, { id }) => {
   }
 };
 
-const transfer = async ({ amount, sender_id, reciever_id }) => {
+const transfer = async ({ amount, sender_id, reciever_acc }) => {
   try {
+    let findReciever = await User.findOne({
+      acc_no: reciever_acc,
+    });
+
     let res = await User.findOneAndUpdate(
       { _id: sender_id },
       { $inc: { balance: amount * -1 } },
@@ -125,14 +147,14 @@ const transfer = async ({ amount, sender_id, reciever_id }) => {
     );
 
     await User.findOneAndUpdate(
-      { _id: reciever_id },
+      { _id: findReciever._id },
       { $inc: { balance: amount } },
       { new: true }
     );
 
     await Transaction.create({
       send_acc: sender_id,
-      reciever_acc: reciever_id,
+      reciever_acc: findReciever._id,
       amount: amount * -1,
       transaction_type: "TRANSFER",
       cheque_image: "",
@@ -152,4 +174,5 @@ export default {
   depositAmount,
   withDrawAmount,
   transfer,
+  getUserById,
 };

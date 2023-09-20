@@ -32,6 +32,12 @@ const Transaction = () => {
     } catch (error) {}
   };
 
+  const isReciever = (rcvr_acc, amount) => {
+    const el = LocalStorage.getStorage();
+    if (el.acc_no === rcvr_acc) return amount * -1;
+    return amount;
+  };
+
   React.useEffect(() => {
     getData();
   }, []);
@@ -78,7 +84,9 @@ const Transaction = () => {
                   {`${row.send_acc.name} (${row.send_acc.acc_no})`}
                 </TableCell>
                 <TableCell align="left">{`${row.reciever_acc.name} (${row.reciever_acc.acc_no})`}</TableCell>
-                <TableCell align="left">{row.amount}</TableCell>
+                <TableCell align="left">
+                  {isReciever(row.reciever_acc.acc_no, row.amount)}
+                </TableCell>
                 <TableCell align="left">{row.transaction_type}</TableCell>
               </TableRow>
             ))}

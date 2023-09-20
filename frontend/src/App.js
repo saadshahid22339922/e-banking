@@ -26,6 +26,7 @@ function PrivateOutlet() {
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/withdraw" element={<Withdraw />}></Route>
         <Route path="/deposit" element={<Deposit />}></Route>
+        <Route path="/transaction" element={<Transaction />}></Route>
         <Route path="/transfer" element={<Transfer />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
       </Routes>

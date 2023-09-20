@@ -1,20 +1,37 @@
-import React from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import AUTH_API from "../apis/auth";
+import LocalStorage from "../utils/local.storage";
 
 const Transfer = () => {
-  const handleSubmit = (e) => {
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      const el = LocalStorage.getStorage();
 
       const { amount, name } = e.target;
-
-      const FormData = {
+      const data = {
         amount: amount.value,
-        name: name.value,
+        sender_id: el._id,
+        reciever_acc: name.value,
       };
 
-      console.log(FormData);
+      let res = await AUTH_API.transfer(data);
+      if (res) {
+        e.target.reset();
+        setOpen(true);
+      }
+
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -22,6 +39,20 @@ const Transfer = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(!open)}
+      >
+        <Alert
+          onClose={() => setOpen(!open)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Amount Transfered !
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           width: `calc(100%-290px)`,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import LocalStorage from "../utils/local.storage";
+import AUTH_API from "../apis/auth";
 
 const handleSubmit = (e) => {
   try {
@@ -49,9 +50,18 @@ const Profile = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const el = LocalStorage.getStorage();
-    setUser(el);
+    getDetail();
   }, []);
+
+  const getDetail = async () => {
+    try {
+      const el = LocalStorage.getStorage();
+      let res = await AUTH_API.getDetailUser(el._id);
+      if (res?.data) setUser(res.data);
+    } catch (error) {
+      console.log("Error Occured ", error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,4 +1,13 @@
-import { Box, Button, Input, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Input,
+  TextField,
+  Typography,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import React, { useState } from "react";
@@ -17,7 +26,8 @@ const VisuallyHiddenInput = styled("input")`
 `;
 
 const Deposit = () => {
-  const [selectedFileName, setSelectedFileName] = useState(null); // State to store selected file name
+  const [selectedFileName, setSelectedFileName] = useState(null);
+  const [open, setOpen] = useState(false);
 
   // Function to handle file selection
   const handleFileSelect = (e) => {
@@ -42,6 +52,11 @@ const Deposit = () => {
       formData.append("file", selectedFileName);
 
       let res = await AUTH_API.deposit(formData);
+      if (res) {
+        e.target.reset();
+        setOpen(true);
+        setSelectedFileName(null);
+      }
 
       console.log("FORM DATA ", formData);
     } catch (error) {
@@ -51,6 +66,21 @@ const Deposit = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(!open)}
+      >
+        <Alert
+          onClose={() => setOpen(!open)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Amount Deposited !
+        </Alert>
+      </Snackbar>
+
       <Box
         sx={{
           width: `calc(100%-290px)`,

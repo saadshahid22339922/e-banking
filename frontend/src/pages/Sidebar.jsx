@@ -57,6 +57,7 @@ const Sidebar = () => {
               <Tabs name={"Withdraw"} path={"withdraw"} />
               <Tabs name={"Deposit"} path={"deposit"} />
               <Tabs name={"Transfer"} path={"transfer"} />
+              <Tabs name={"Transaction"} path={"transaction"} />
               <Tabs name={"Profile"} path={"profile"} />
             </React.Fragment>
           ) : (

@@ -34,6 +34,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    let data = await UserService.getUserById(req.params);
+    res.status(data.status).send(data);
+  } catch (error) {
+    return serverErrorResponse(res, error);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     let data = await UserService.create(req.body);

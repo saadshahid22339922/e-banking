@@ -1,8 +1,17 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import AUTH_API from "../apis/auth";
-import React from "react";
+import React, { useState } from "react";
 
 const Withdraw = () => {
+  const [open, setOpen] = useState(false);
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -14,6 +23,10 @@ const Withdraw = () => {
       console.log(body);
 
       let res = await AUTH_API.withdraw(body);
+      if (res) {
+        setOpen(true);
+        e.target.reset();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -21,6 +34,21 @@ const Withdraw = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(!open)}
+      >
+        <Alert
+          onClose={() => setOpen(!open)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Amount Withdrawed !
+        </Alert>
+      </Snackbar>
+
       <Box
         sx={{
           width: `calc(100%-290px)`,
