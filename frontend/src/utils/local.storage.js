@@ -43,7 +43,8 @@ const logout = (cb) => {
   try {
     localStorage.removeItem("e-banking");
     localStorage.removeItem("e-banking-id");
-    cb("/");
+    let user = localStorage.getItem("e-banking");
+    if (!user) cb("/");
   } catch (error) {
     return false;
   }

@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TRANSACTION_API from "../apis/transaction";
+import LocalStorage from "../utils/local.storage";
 import { Box, Typography } from "@mui/material";
 
 function createData(type, amount, date) {
@@ -25,10 +26,9 @@ const Transaction = () => {
 
   const getData = async () => {
     try {
-      let res = await TRANSACTION_API.getAll();
-      if (res) {
-        setTransactions(res.data);
-      }
+      let el = LocalStorage.getStorage();
+      let res = await TRANSACTION_API.getAll(el?._id);
+      if (res) setTransactions(res.data);
     } catch (error) {}
   };
 

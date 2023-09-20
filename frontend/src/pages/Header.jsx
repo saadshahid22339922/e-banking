@@ -22,7 +22,7 @@ const Header = () => {
           bgcolor: `white`,
         }}
       >
-        <Box sx={{ display: `flex`, alignItems: `center` }}>
+        <Box sx={{ display: `flex`, alignItems: `center`, mt: 1.5 }}>
           <Typography
             sx={{ mr: 10, fontWeight: `bold`, color: `black`, fontSize: 27 }}
           >
@@ -32,6 +32,7 @@ const Header = () => {
 
         <Box
           sx={{
+            mt: 2,
             display: `flex`,
             width: `180px`,
             justifyContent: "end",
@@ -45,7 +46,6 @@ const Header = () => {
           </Typography>
           <Box
             sx={{
-              mt: 1,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

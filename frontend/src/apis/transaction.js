@@ -1,9 +1,9 @@
 import ROUTES from "../config/routes";
 import FETCH from "../utils/fetch";
 
-const getAll = async (cb) => {
+const getAll = async (id, cb) => {
   let res = await FETCH.get({
-    url: `${ROUTES.TRANSACTION}/6504354946404677a77586aa`,
+    url: `${ROUTES.TRANSACTION}/${id}`,
     auth: false,
   });
   return res;
