@@ -10,17 +10,6 @@ import TRANSACTION_API from "../apis/transaction";
 import LocalStorage from "../utils/local.storage";
 import { Box, Typography } from "@mui/material";
 
-function createData(type, amount, date) {
-  return { type, amount, date };
-}
-
-const rows = [
-  createData("Deposit", "3000", "19-02-2023"),
-  createData("Withdraw", "4000", "19-02-2023"),
-  createData("Transfer", "5000", "19-02-2023"),
-  createData("Deposit", "2000", "19-02-2023"),
-];
-
 const Transaction = () => {
   const [transactions, setTransactions] = React.useState([]);
 
@@ -32,7 +21,9 @@ const Transaction = () => {
     } catch (error) {}
   };
 
-  const isReciever = (rcvr_acc, amount) => {
+  const isReciever = (rcvr_acc, amount, transaction_type) => {
+    if (transaction_type === "DEPOSIT" || transaction_type === "WITHDRAW")
+      return amount;
     const el = LocalStorage.getStorage();
     if (el.acc_no === rcvr_acc) return amount * -1;
     return amount;
@@ -85,7 +76,11 @@ const Transaction = () => {
                 </TableCell>
                 <TableCell align="left">{`${row.reciever_acc.name} (${row.reciever_acc.acc_no})`}</TableCell>
                 <TableCell align="left">
-                  {isReciever(row.reciever_acc.acc_no, row.amount)}
+                  {isReciever(
+                    row.reciever_acc.acc_no,
+                    row.amount,
+                    row.transaction_type
+                  )}
                 </TableCell>
                 <TableCell align="left">{row.transaction_type}</TableCell>
               </TableRow>

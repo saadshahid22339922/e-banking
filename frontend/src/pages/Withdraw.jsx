@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import AUTH_API from "../apis/auth";
 import React, { useState } from "react";
+import LocalStorage from "../utils/local.storage";
 
 const Withdraw = () => {
   const [open, setOpen] = useState(false);
@@ -15,6 +16,7 @@ const Withdraw = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      const user = LocalStorage.getStorage();
 
       const { amount } = e.target;
       const body = {
@@ -22,7 +24,7 @@ const Withdraw = () => {
       };
       console.log(body);
 
-      let res = await AUTH_API.withdraw(body);
+      let res = await AUTH_API.withdraw(user?._id, body);
       if (res) {
         setOpen(true);
         e.target.reset();
@@ -34,6 +36,21 @@ const Withdraw = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(!open)}
+      >
+        <Alert
+          onClose={() => setOpen(!open)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Amount Withdrawed !
+        </Alert>
+      </Snackbar>
+
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={open}

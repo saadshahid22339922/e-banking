@@ -31,9 +31,9 @@ const logout = async (cb) => {
   STORAGE.logout(cb);
 };
 
-const deposit = async (body, cb) => {
+const deposit = async (id, body, cb) => {
   let res = await FETCH.post({
-    url: `${ROUTES.USER}/deposit/6504354946404677a77586aa`,
+    url: `${ROUTES.USER}/deposit/${id}`,
     body,
     auth: false,
     isFormData: true,
@@ -41,9 +41,9 @@ const deposit = async (body, cb) => {
   return res;
 };
 
-const withdraw = async (body, cb) => {
+const withdraw = async (id, body, cb) => {
   let res = await FETCH.post({
-    url: `${ROUTES.USER}/withdraw/6504354946404677a77586aa`,
+    url: `${ROUTES.USER}/withdraw/${id}`,
     body,
     auth: false,
   });
