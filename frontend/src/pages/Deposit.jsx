@@ -54,6 +54,7 @@ const Deposit = () => {
       formData.append("file", selectedFileName);
 
       let res = await AUTH_API.deposit(user?._id, formData);
+      console.log(res)
       if (res) {
         e.target.reset();
         setOpen(true);

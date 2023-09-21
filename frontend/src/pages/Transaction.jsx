@@ -74,7 +74,14 @@ const Transaction = () => {
                 <TableCell component="th" scope="row">
                   {`${row.send_acc.name} (${row.send_acc.acc_no})`}
                 </TableCell>
-                <TableCell align="left">{`${row.reciever_acc.name} (${row.reciever_acc.acc_no})`}</TableCell>
+
+                <TableCell align="left">
+                  {`${row.reciever_acc.name}  `}
+                  <span
+                    style={{ fontWeight: "bold" }}
+                  >{`(${row.reciever_acc.acc_no})`}</span>
+                </TableCell>
+
                 <TableCell align="left">
                   {isReciever(
                     row.reciever_acc.acc_no,
