@@ -10,7 +10,6 @@ import AUTH_API from "../apis/auth";
 import React, { useState } from "react";
 import LocalStorage from "../utils/local.storage";
 
-
 const Withdraw = () => {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -19,32 +18,27 @@ const Withdraw = () => {
     try {
       e.preventDefault();
       const user = LocalStorage.getStorage();
-      console.log(user)
+      console.log(user);
 
       const { amount } = e.target;
       const body = {
         amount: amount.value,
       };
-      console.log(body);
 
-     
-      if(user.balance <=0)
-      {
+      if (
+        parseFloat(user.balance) <= 0 ||
+        parseFloat(amount.value) > parseFloat(user.balance)
+      ) {
+        console.log("1 BALANCE", user.balance);
+        console.log("1 BALANCE", amount.value);
         setOpen2(true);
-        
-      }
-      
-      else{
-        let res = await AUTH_API.withdraw(user?._id, body);
-        console.log(res)
-        setOpen(true);
-        e.target.reset();
-
+        return null;
       }
 
-
-
-
+      let res = await AUTH_API.withdraw(user?._id, body);
+      console.log(res);
+      setOpen(true);
+      e.target.reset();
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +72,7 @@ const Withdraw = () => {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Invalid Ammount
+          Insufficient Amount Available!
         </Alert>
       </Snackbar>
 
@@ -104,7 +98,7 @@ const Withdraw = () => {
           <Typography sx={{ fontWeight: "bold", fontSize: "40px" }}>
             Withdraw
           </Typography>
-          
+
           <TextField
             sx={{
               width: "100%",

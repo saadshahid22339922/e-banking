@@ -36,7 +36,6 @@ const deposit = async (id, body, cb) => {
     url: `${ROUTES.USER}/deposit/${id}`,
     body,
     auth: false,
-    isFormData: true,
   });
   return res;
 };
