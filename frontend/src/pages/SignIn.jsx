@@ -1,9 +1,18 @@
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Link,
+  TextField,
+  Typography,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AUTH_API from "../apis/auth";
-import React from "react";
+import React, { useState } from "react";
 
 const SignIn = () => {
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,7 +25,8 @@ const SignIn = () => {
         password: password.value,
       };
 
-      await AUTH_API.login(body, navigate);
+      let res = await AUTH_API.login(body, navigate);
+      if (!res) setOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -24,6 +34,21 @@ const SignIn = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(!open)}
+      >
+        <Alert
+          onClose={() => setOpen(!open)}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Invalid Credentials !
+        </Alert>
+      </Snackbar>
+
       <Box
         sx={{
           display: `flex`,

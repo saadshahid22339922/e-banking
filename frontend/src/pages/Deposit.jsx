@@ -12,6 +12,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import React, { useState } from "react";
 import AUTH_API from "../apis/auth";
+import LocalStorage from "../utils/local.storage";
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
@@ -44,6 +45,7 @@ const Deposit = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      const user = LocalStorage.getStorage();
 
       const { amount } = e.target;
 
@@ -51,7 +53,7 @@ const Deposit = () => {
       formData.append("amount", amount.value);
       formData.append("file", selectedFileName);
 
-      let res = await AUTH_API.deposit(formData);
+      let res = await AUTH_API.deposit(user?._id, formData);
       if (res) {
         e.target.reset();
         setOpen(true);

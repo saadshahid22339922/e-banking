@@ -101,7 +101,7 @@ const Transfer = () => {
                 },
               },
             }}
-            label="Transfer to"
+            label="Transfer to Account Number"
             type="text"
             name="name"
             size="medium"
