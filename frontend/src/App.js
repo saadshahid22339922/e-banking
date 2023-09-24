@@ -48,6 +48,7 @@ function PrivateOutlet() {
 
 function App() {
   const auth = STORAGE.getStorage();
+  console.log('AUTH ', auth)
 
   return (
     <div className="App">

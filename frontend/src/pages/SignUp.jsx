@@ -7,6 +7,8 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AUTH_API from "../apis/auth";
@@ -20,6 +22,8 @@ const SignIn = () => {
 
   const [selectedRole, setselectedRole] = useState(null);
   const [selectedAccountType, setselectedAccountType] = useState(null);
+
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     try {
@@ -56,8 +60,11 @@ const SignIn = () => {
       };
 
       let res = await AUTH_API.signUp(body);
-      if (res) navigate("/");
-
+      if (res) {
+        setOpen(true);
+        e.target.reset();
+        // navigate("/");
+      }
       console.log(body);
     } catch (error) {
       console.log(error);
@@ -66,6 +73,21 @@ const SignIn = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(!open)}
+      >
+        <Alert
+          onClose={() => setOpen(!open)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Account Created Successfully !
+        </Alert>
+      </Snackbar>
+
       <Box
         sx={{
           display: `flex`,
