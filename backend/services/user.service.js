@@ -165,6 +165,44 @@ const transfer = async ({ amount, sender_id, reciever_acc }) => {
   }
 };
 
+const getEmployeeStats = async ({ id }) => {
+  try {
+    let user = await User.findById({ _id: id });
+    let transaction = await Transaction.countDocuments();
+    let users = await User.countDocuments();
+
+    return successResponse({
+      message: "employee.stats",
+      data: {
+        balance: user.balance,
+        transaction: transaction,
+        users,
+      },
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const getCustomerStats = async ({ id }) => {
+  try {
+    let user = await User.findById({ _id: id });
+    let transaction = await Transaction.countDocuments({
+      $or: [{ send_acc: id }, { reciever_acc: id }],
+    });
+
+    return successResponse({
+      message: "customer.stats",
+      data: {
+        balance: user.balance,
+        transaction: transaction,
+      },
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 export default {
   getAll,
   create,
@@ -175,4 +213,6 @@ export default {
   withDrawAmount,
   transfer,
   getUserById,
+  getCustomerStats,
+  getEmployeeStats,
 };

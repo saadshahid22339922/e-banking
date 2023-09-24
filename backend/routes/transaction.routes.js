@@ -4,6 +4,15 @@ import { TransactionService } from "../services";
 const router = Router();
 
 // All Records
+router.get("/employee", async (req, res) => {
+  try {
+    let data = await TransactionService.getAllforEmployee();
+    res.status(data.status).send(data);
+  } catch (error) {
+    return serverErrorResponse(res, error);
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     let data = await TransactionService.getAll(req.params);

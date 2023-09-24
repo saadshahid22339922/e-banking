@@ -53,8 +53,15 @@ const Deposit = () => {
       formData.append("amount", amount.value);
       formData.append("file", selectedFileName);
 
+      // const body = {
+      //   amount: amount.value,
+      // };
+
       let res = await AUTH_API.deposit(user?._id, formData);
+      console.log(res);
       if (res) {
+        user["balance"] = parseInt(user.balance) + parseInt(amount.value);
+        LocalStorage.setStoage(user);
         e.target.reset();
         setOpen(true);
         setSelectedFileName(null);
