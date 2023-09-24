@@ -14,6 +14,17 @@ const getAll = async ({ id }) => {
   }
 };
 
+const getAllforEmployee = async () => {
+  try {
+    const res = await Transaction.find({})
+      .populate("send_acc")
+      .populate("reciever_acc");
+    return successResponse({ message: "transactions.found.ok", data: res });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 const create = async ({ body }) => {
   try {
     let res = await Transaction.create({
@@ -50,4 +61,5 @@ export default {
   create,
   update,
   removeRecord,
+  getAllforEmployee,
 };

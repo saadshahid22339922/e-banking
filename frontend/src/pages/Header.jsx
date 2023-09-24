@@ -3,6 +3,7 @@ import { AppBar, Avatar, Box, Toolbar, Typography } from "@mui/material";
 import AUTH_API from "../apis/auth";
 import { useNavigate } from "react-router-dom";
 import LocalStorage from "../utils/local.storage";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ const Header = () => {
       <Toolbar
         sx={{
           justifyContent: `space-between`,
-
           bgcolor: `white`,
+          pb: 2,
         }}
       >
         <Box sx={{ display: `flex`, alignItems: `center`, mt: 1.5 }}>
@@ -40,10 +41,11 @@ const Header = () => {
           }}
         >
           <Typography
-            sx={{ fontWeight: `bold`, color: `black`, fontSize: 17, mr: 4 }}
+            sx={{ fontWeight: `bold`, color: `black`, fontSize: 20, mr: 3 }}
           >
             {user?.email}
           </Typography>
+
           <Box
             sx={{
               display: "flex",
@@ -51,17 +53,18 @@ const Header = () => {
               alignItems: "center",
             }}
           >
-            <Avatar
+            <LogoutIcon
               onClick={() => AUTH_API.logout(navigate)}
-              style={{
-                marginTop: 13,
-              }}
               sx={{
-                height: `40px`,
-                width: `40px`,
-                mb: "25%",
+                fontSize: "34px",
+
+                color: "red",
+                cursor: "pointer",
               }}
-            ></Avatar>
+            />
+            <Typography sx={{ color: "black", fontWeight: "bold" }}>
+              Logout
+            </Typography>
           </Box>
         </Box>
       </Toolbar>
