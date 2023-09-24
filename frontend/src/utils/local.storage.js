@@ -3,7 +3,7 @@ const setStoage = (body, cb = null) => {
     let user = JSON.stringify(body);
     localStorage.setItem("e-banking", user);
     localStorage.setItem("e-banking-id", user._id);
-    if (cb) cb("/auth/user");
+    if (cb) cb("/auth/dashboard");
     else return true;
   } catch (error) {
     return null;

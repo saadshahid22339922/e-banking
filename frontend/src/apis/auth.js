@@ -58,6 +58,18 @@ const transfer = async (body, cb) => {
   return res;
 };
 
+const getStats = async (id, cb) => {
+  const role = STORAGE.getStorage();
+  let res = await FETCH.get({
+    url:
+      role?.role?.role_enum === "EMPLOYEE"
+        ? `${ROUTES.USER}/employee-stats/${id}`
+        : `${ROUTES.USER}/customer-stats/${id}`,
+    auth: false,
+  });
+  return res;
+};
+
 const AUTH_API = {
   login,
   signUp,
@@ -67,5 +79,6 @@ const AUTH_API = {
   withdraw,
   transfer,
   getDetailUser,
+  getStats,
 };
 export default AUTH_API;

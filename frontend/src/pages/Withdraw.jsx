@@ -29,8 +29,6 @@ const Withdraw = () => {
         parseFloat(user.balance) <= 0 ||
         parseFloat(amount.value) > parseFloat(user.balance)
       ) {
-        console.log("1 BALANCE", user.balance);
-        console.log("1 BALANCE", amount.value);
         setOpen2(true);
         return null;
       }
