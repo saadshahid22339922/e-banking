@@ -35,6 +35,7 @@ const deposit = async (id, body, cb) => {
   let res = await FETCH.post({
     url: `${ROUTES.USER}/deposit/${id}`,
     body,
+    isFormData: true,
     auth: false,
   });
   return res;
